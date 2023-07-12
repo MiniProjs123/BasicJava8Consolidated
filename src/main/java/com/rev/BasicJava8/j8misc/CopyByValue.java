@@ -71,7 +71,9 @@ public class CopyByValue {
 	// ==> this is because, whilst the reference is indeed copied (in updateWoolColour()), it still refers to the same underlying object,
 	//     so the update is maintained after the called method exists the stack
 	private void demonstratePassByValueWithObjectReferences() {
-		
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+		System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+
 		// when an object is created with the new operator, an instance is created and the variable holds the memory location
 		Sheep mildy = new Sheep(1, "black", "fine", "Mildy");
 		Sheep gertrude = new Sheep(8, "blue", "steely", "Gertrude");
@@ -81,25 +83,38 @@ public class CopyByValue {
 		swap(mildy, gertrude);
 		System.out.println("Mildy is still Mildy ="+mildy.getName());
 		System.out.println("Gertrude is still Gertrude ="+gertrude.getName());
-		
+		// IE. the copied references have been swapped, but now that stack has exited the original references
+		//     remain pointing to unchanged values
+
 		// however, a value manipulated within the referenced object is maintained
 		System.out.println("Dying Mildy's wool colour to purple.....but it was " + mildy.getColour());
 		updateWoolColour(mildy, "Purple");
-		System.out.println("Mildy's wool colour was set in a separate method, and is now: " + mildy.getColour());
+		System.out.println("Mildy's wool colour was set in the called method, and is now: " + mildy.getColour());
+
+		swapSheepWithMenaces(mildy, gertrude);
+		System.out.println("Mildy wool colour = " + mildy.getColour());
+		System.out.println("Gertrude wool colour = " + gertrude.getColour());
+		// IE. if you perform a change on the actual value of an object, this change is persisted
+		//     once the latest thread on the stack has exited
 	}
-	
-	
+
 	private static void updateWoolColour(Sheep sheep, String newColour) {
 		sheep.setColour(newColour);
 	}
-	
-	
-	
-	
-	private static void swap(Object o1, Object o2){ 
+
+	private static void swap(Object o1, Object o2){
 		Object temp = o1;
 		o1=o2;
 		o2=temp;
+	}
+
+	private static void swapSheepWithMenaces(Object o1, Object o2){
+		Object temp = o1;
+		o1=o2;
+		o2=temp;
+
+		((Sheep)o1).setColour("Grey - NEW 1");
+		((Sheep)o2).setColour("Grey - NEW 2");
 	} 
 	
 	

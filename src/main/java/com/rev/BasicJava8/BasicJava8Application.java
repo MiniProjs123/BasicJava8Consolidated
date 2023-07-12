@@ -12,8 +12,15 @@ public class BasicJava8Application {
 		init();
 	}
 	private void init() {
-//		new Java8misc();
-//		new FunctionalInstructor();
+		new Java8misc();
+
+
+		// largely a different, poorer version of Java8misc() - but worth sifting through
+		// TODO worth consolitating into a single access point: Java8misc(), and removing duplicated structures
+		new FunctionalInstructor();
+
+		// contains some more optional examples
+		// TODO worth consolitating into a single access point: Java8misc(), and removing duplicated structures
 		new Qis();
 	}
 

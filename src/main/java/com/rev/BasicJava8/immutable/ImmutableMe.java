@@ -48,6 +48,8 @@ public final class ImmutableMe {
 		return cloneAge;
 	}
 	
-	
+	public Object clone() {
+		return new ImmutableMe(this.name, this.age);
+	}
 
 }

@@ -27,7 +27,7 @@ public class StringJoinerPlus {
 	
 
 	private void doStringJoiner() {
-		System.out.println("\nDomonstrate joiner:");
+		System.out.println("\nDemonstrate joiner:");
 		StringJoiner sj = new StringJoiner(",");
         sj.add("aaa");
         sj.add("bbb");

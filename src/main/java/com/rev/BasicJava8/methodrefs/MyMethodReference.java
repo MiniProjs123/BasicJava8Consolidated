@@ -29,24 +29,31 @@ public class MyMethodReference {
 	public static void saySomethingStatic(int index) {
 		System.out.println("Hello, static method woz 'ere - index = " + index);
 	}
-		
-	
+
+	// A FUNCTIONAL INTERFACE IS Used for method referencing
+	// IT HAS EXACTLY ONE ABSTRACT METHOD SIGNATURE OF ITS OWN
+	// IT CAN HAVE OTHER METHODS:
+	// --> STATIC
+	// --> DEFAULT
+	// --> ABSTRACT (but overrides from java.lang.Object)
+
+
+	// TODO
 	@FunctionalInterface
 	interface Tellable {
 
 		void refMethod1();
-		
+
 		static void refMethod1Static() {
 			System.out.println("my static method");
 		};
-		
-		
+
+
 		default void refMethod1Default() {
 			System.out.println("my default method");
 		}
 	}
 
-	
 	@FunctionalInterface
 	interface Discussable {
 		void refMethod101(int index, String title);

@@ -5,13 +5,7 @@ import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.IntSummaryStatistics;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -94,7 +88,7 @@ Practice basics:
 		
 		// this is of limited use
 		String nullName = null;
-	    String name = Optional.ofNullable(nullName).orElse("john");
+	    String name = Optional.ofNullable(nullName).orElse("john"); // or orElseGet()
 	}
 	
 		
@@ -108,10 +102,10 @@ Practice basics:
 		
 		// give 1 bonus year for every sheep
 		totalFlockAge = Arrays.stream(sheepArr).map(Sheep::getAge).reduce(0, (a, b)-> a + b + 1);
-		System.out.println("\nTotal flock age with bonus years = " + totalFlockAge + " ==> should be 4 more");				   
+		System.out.println("\nTotal flock age with bonus years = " + totalFlockAge + " ==> should be 4 more due to the pointless +1");
 		
-		int totalEmptyFlockAge = new ArrayList<Sheep>().stream().map(Sheep::getAge).reduce(0, (a, b)-> a + b);
-		System.out.println("\nTotal flock age where there are no sheep = " + totalEmptyFlockAge + " ==> should use identity which is ZERO");
+		int totalEmptyFlockAge = Arrays.stream(sheepArr).map(Sheep::getAge).reduce(0, (a, b)-> a + b);
+		System.out.println("\nTotal flock age where there are no bonus years = " + totalEmptyFlockAge + " ==> should use identity which is ZERO");
 		
 		IntSummaryStatistics summary = Arrays.stream(sheepArr).mapToInt(Sheep::getAge).summaryStatistics();
 		System.out.println("\nAverage flock age including bonus year = " + Math.round(summary.getAverage()));
@@ -152,7 +146,7 @@ Practice basics:
 	
 	
 	
-	private void mapSheepToNameList() {
+	private void mapSheepToNameList() {   // take care with parallel streams......not necessarily a good idea
 		System.out.print("Printing out the sheep names: \n");
 		List<Sheep> sheepList = Arrays.asList(new Sheep(1, "black", "fine", "Mildy"), 
 				new Sheep(2, "white", "curly", "Tolly"), new Sheep(3, "blue", "straight", "Savvy"));
@@ -196,21 +190,35 @@ Practice basics:
 				
 		System.out.print("\nWhat happens when there are null values?\n====> ");
 		sheepList = Arrays.asList(new Sheep(1, "black", "fine"), 
-				new Sheep(2, "white", "curly"), new Sheep(3, "blue", "straight"), new Sheep(4, null, null));  
-		sheepList.sort((a, b)->{ // check against the object too
-			if (a.getColour() == null && b.getColour() == null) {
-				return 0; 
-			} else if (a.getColour() == null) {
-				return -1;
-			} else if (b.getColour() == null) {
-				return 1;
-			}
-			return a.getColour().compareTo(b.getColour());
-		});
-		sheepList.forEach(v->System.out.print(v.getColour() != null ? " " + v.getColour().toString() : "[no colour]"));
+				new Sheep(2, "white", "curly"), new Sheep(3, "blue", "straight"), new Sheep(4, null, null));
+
+		// sort by a Comparator as a function. The actual comparing functionality is implemented as a lamda
+		sheepList.sort(getSheepColourComparator());
+		sheepList.forEach(v->System.out.print(v.getColour() != null ? " " + v.getColour() : "[no colour]"));
 	}
-	
-	
+
+
+	public static Comparator<Sheep> getSheepColourComparator() {
+		return (a, b) -> {
+			if ((a == null && b == null)
+					|| (a.getColour() == null && b.getColour() == null )) {
+				return 0;
+			} else if ((a != null && b == null)
+					|| a.getColour() != null && b.getColour() == null) {
+				return 1;
+			} else if ((b != null && a == null)
+					|| b.getColour() != null && a.getColour() == null) {
+				return -1;
+			}
+
+			return a.getColour().compareTo(b.getColour());
+		};
+	}
+
+
+
+
+
 	/* 
 	    PARALLEL STREAMS divide the provided task into many and run them in different threads, 
 	    utilizing multiple cores of the computer. On the other hand sequential streams work 
@@ -249,7 +257,7 @@ Practice basics:
 				new Sheep(2, "white", "curly", "Tolly", 101), new Sheep(3, "blue", "straight", "Savvy", 333));
     	int sheepSelector = (int)(Math.random() * 4); 
     	
-    	// obviously this is artificial.........sheep would never be null here....but
+    	// obviously this is artificial.........sheep would never be null here....but the point is it could be null, what what
     	return Optional.ofNullable(sheepList.get(sheepSelector));
     }
         

@@ -1,5 +1,7 @@
 package com.rev.BasicJava8.interfaces;
 
+import com.rev.BasicJava8.dm.Sheep;
+
 public interface MyDefaultInterface extends MyTopLevelInterface {
 
 	
@@ -13,8 +15,6 @@ public interface MyDefaultInterface extends MyTopLevelInterface {
 		MyTopLevelInterface.super.doSomething();
 		
 		System.out.println("Interface is hard coded to do something by itself!!!!");
-		
-		
 	}
 	
 	default void doSomethingMoreInteresting() {
@@ -26,7 +26,7 @@ public interface MyDefaultInterface extends MyTopLevelInterface {
 	}
 	
 	default String overrideMeWhyNot() {
-		return "....instance method can ovrride me";
+		return "....instance method can override me";
 	}
 	
 	default void doQuickTest() {

@@ -27,15 +27,21 @@ public class MyMethodReferenceMachine {
 		// as there is only one functional method in the functional interface,
 		// whenever that method is invoked, it actually means "do what we define in Sayable"
 		
-		// So, we are locally defining and assigning behaviour for our functional interface class
-		// the behaviour can be invoked by just calling the functional interface method
+		// THE FUNCTIONAL INTERFACE, TELLABLE, CAN BE ASSIGNED TO REPRESENT A SINGLE METHOD/FUNCTION.
+		// YOU CAN HAVE MULTIPLE FUNCTIONAL OBJECTS TO REPRESENT DIFFERENT METHODS/FUNCTIONS, EVEN DERIVING FROM DIFFERENT CLASSES
+		// THIS METHOD CAN BE UNRELATED TO THE FOCUS OBJECT/METHOD, BUT MUST HAVE THE SAME SIGNATURE / RETURN TYPE
 		Tellable tellable = methodReference::saySomething;
 		tellable.refMethod1();
 		Tellable sayDiff = methodReference::saySomethingDifferent;
+
+		MyFunnyValentine funnyVal = new MyFunnyValentine();
+		Tellable valentine = funnyVal::tellMeMore;
+
 		sayDiff.refMethod1();
 		tellable.refMethod1();
-		
-		// Note - no need to state 'implements Sayable', or to implement the functional interface method - indeed, any implementation is ignored
+		valentine.refMethod1();
+
+		// Note - no need to state 'implements Sayable'
 		
 		// but, why not just call it directly.....???
 		new MyMethodReference().saySomething();
@@ -44,9 +50,9 @@ public class MyMethodReferenceMachine {
 		// to instantiate them and avoid using bulky anonymous class implementation. 
 		// Java 8 Collections API has been rewritten and the new Stream API introduced makes extensive use of functional interfaces.
 		
-		// saves creating a clunky in-line anonymous class
-		Discussable fobj = (int x, String titleNot) -> System.out.println(2 * x + 47); // notice exact title does not matter
-		fobj.refMethod101(20, "lambda functional interface");
+		// using a functional interface saves creating a clunky in-line anonymous class
+		Discussable fobj = (int x, String titleNot) -> System.out.println(((2 * x) + 47) + " runs: " + titleNot); // notice exact title does not matter
+		fobj.refMethod101(20, " for 3 lambda functional interface wickets");
 		
 		////////////////////////////////////
 		// METHOD REFERENCES: CONSTRUCTOR
@@ -55,7 +61,8 @@ public class MyMethodReferenceMachine {
 		System.out.println("Refer to the MyMethodReference constructor content");
 		Tellable discussableMe = MyMethodReference::new;
 		discussableMe.refMethod1(); // prints out 'GREETINGS from Methref'
-		
+
+		// store the call to MyMethodReference constructor with a predefined functional interface (which takes 2 args and returns void)
 		BiConsumer<Integer, String> consumer = MyMethodReference::new;
 		consumer.accept(5, "greetings2");
 				
@@ -63,7 +70,7 @@ public class MyMethodReferenceMachine {
 		// METHOD REFERENCES: STATIC CLASSES
 		
 		// predefined functional interface contains a functional method apply() 
-		// the first 2 type parameters are the 2 method args, and the the last is the return type
+		// the first 2 type parameters are the 2 method args, and the the last is the return type!!!
 		BiFunction<Integer, Integer, Integer> adder = Calculator::add; 
 		
 		int result = adder.apply(10, 20);  

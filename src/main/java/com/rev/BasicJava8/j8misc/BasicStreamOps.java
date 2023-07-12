@@ -53,7 +53,7 @@ public class BasicStreamOps {
 		intList.sort((x, y) -> x.compareTo(y));
 		intList.forEach(i -> System.out.print(", " + i));
 				
-		// note, it is not necessary to implement Comparable / Comparator interfaces these days! 
+		// note necessary to implement Comparable / Comparator interfaces on Integer values
 		intList.sort((x, y) -> x.compare(y, x));
 		System.out.print("\n");
 		intList.forEach(i -> System.out.print(", " + i));
@@ -62,8 +62,8 @@ public class BasicStreamOps {
 				new Sheep(2, "white", "curly"), new Sheep(3, "blue", "straight"));
 		System.out.println("\nPrint out the sheep according to colour:");
 		
-		Comparator<Sheep> sheepColourComparer = Sheep.getComparatorByColour();
-		sheepList.sort(sheepColourComparer);
+		Comparator<Sheep> sheepColourComparer = Sheep.getComparatorByColour(); // ie return a Comparator as a lambda function
+		sheepList.sort(sheepColourComparer);                                   //    maybe better in Sheep class
 		System.out.print("\nPrint the sheep sorted by colour: ");
 		sheepList.forEach(i -> System.out.print(", " + i.getColour()));
 		
@@ -154,7 +154,7 @@ public class BasicStreamOps {
 		System.out.print("\nSum of sheep ages: " + sumOfSheepAges);
 		
 		IntSummaryStatistics stats = sheep.stream().filter(p -> p.getColour().equals("blue")).mapToInt(Sheep::getAge).summaryStatistics();
-		List<String> namesOfOldestSheep = sheep.stream().filter(s -> s.getAge() >= stats.getMax()).map(Sheep::getName).collect(Collectors.toList());
+		List<String> namesOfOldestSheep = sheep.stream().filter(s -> s.getAge() == stats.getMax()).map(Sheep::getName).collect(Collectors.toList());
 		System.out.println("\nThere are " + stats.getCount() + " sheep.  Oldest is " + stats.getMax() + ".\n Names of oldest sheep = ");
 		namesOfOldestSheep.forEach(s -> System.out.println(", " + s));
 		
@@ -176,7 +176,7 @@ public class BasicStreamOps {
 		
 		Optional<Sheep> opt = Optional.ofNullable(null);
 		Sheep x = opt.orElse( new Sheep(11, "black", "fine", "Mildy2", 87) );  // Mildy2 will always be created, but not be used if a value exists within opt
-		Sheep y = opt.orElseGet( Sheep::new ); // a new sheep will only be created if there is no value in opt
+		Sheep y = opt.orElseGet( Sheep::new ); // a new sheep will only be created if there is no value in opt - so more efficient
 		System.out.println("Mildy2 is fine and well = " + x.getName());
 		
 		System.out.println("==> optionals [end]\n");

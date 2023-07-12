@@ -25,7 +25,7 @@ public class OptionalOpter {
 
     private Job cheekyMaxOrElseThrow(List<Job> jobs) {
         Optional<Job> maxResult = jobs.stream().max(Comparator.comparing(Job::getPriority));
-        return maxResult.orElseThrow(() -> new IllegalStateException("Failed to map jobs by priority"));
+        return maxResult.orElseThrow(() -> new IllegalStateException("Failed to map jobs by priority, because none existed"));
     }
 
     private List<Job> getJobs() {

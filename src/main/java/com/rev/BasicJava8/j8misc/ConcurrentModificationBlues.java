@@ -70,7 +70,8 @@ public class ConcurrentModificationBlues {
 		} catch(ConcurrentModificationException e) { 
 			System.out.println("ConcurrentModificationException thrown");
 		}
-		
+
+		// now that looping has completed, it is fine to REMOVE the element from the COLLECTION
 		ints.remove(Integer.valueOf(88));  // remove the first element of value 88 - without issues...
 		System.out.println(" - first occurrence of Integer 88 removed...\n");
 		
@@ -82,19 +83,31 @@ public class ConcurrentModificationBlues {
 	
 	private static void resolution2_useIterator() {
 		Collection<Integer> ints = createIntegerList(); 
-		for (Iterator<Integer> iterator = ints.iterator(); iterator.hasNext();) {
-		    Integer integer = iterator.next();
-		    if(integer.intValue() == 88) {
-		        iterator.remove();
+//		for (Iterator<Integer> iterator = ints.iterator(); iterator.hasNext();) {
+//		    Integer integer = iterator.next();
+//		    if(integer.intValue() == 88) {
+//		        iterator.remove();
+//		    }
+//		}
+
+		int count = 0;
+		Iterator iterator = ints.iterator();
+		while (iterator.hasNext()) {
+			Integer integer = (Integer) iterator.next();
+
+			count++;
+			System.out.println("loop iteration: " + count);
+
+			if(integer.intValue() == 88) {
+				iterator.remove();
 		    }
 		}
-		
+
 		System.out.print("Removed 88 directly with iterator:  ");
 		ints.forEach(i -> System.out.print(", " + i));
 		System.out.println("\nsuccessfully removed 88 using iterator");
 	}
-	
-	
+
 	private static void resolution3_collectionRemoveIf() {
 		Collection<Integer> ints = createIntegerList(); 
 		ints.removeIf(i -> i.intValue() == 88);
