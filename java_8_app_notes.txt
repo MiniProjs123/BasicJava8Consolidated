@@ -1,0 +1,96 @@
+*********************************************
+JAVA 8 APP NOTES
+*********************************************
+WAYS OF LOOPING THROUGH MAP
+
+- forEach on map itself
+- forEach on stream of map's keySet, or keys
+- EntrySet / KeySet / Iterator
+
+---------------------------------------------
+OPTIONS TO AVOID ConcurrentModificationException
+   
+  eg. remove an element whilst looping
+
+- adjust logic so the removal can happen when loop is finished
+- use Iterator
+- use removeIf  eg ints.removeIf(i -> i.intValue() == 88); 
+- use stream, filter out the element, and perform any
+  other stuff before returning the Collection
+
+---------------------------------------------
+BENEFITS OF JAVA STREAMING API
+
+- operations are on byte array and not actually changing
+  the underlying java collection
+
+- keeps code succinct - uses lamdas expresions for 1 line
+  & saves haveing to use the looping construct in many cases
+
+---------------------------------------------
+MAIN METHODS OF JAVA 8 STREAMS 
+
+- on elements of the collection:
+  filter, map (element type), collect (return structure)
+
+- also things like reduce(), groupingBy,
+  Collectors.joining() etc
+
+---------------------------------------------
+LAMDA / METHOD REFERENCES
+
+- ways to write anonymous functional expressions
+
+- method references / lambda expressions avoid need 
+  for clunky inline anonymous classes
+    
+---------------------------------------------
+DEFINED INTERFACES
+
+- rules: 
+  --> 1 instance method only
+  --> other static, default, or java.lang.Object overrides
+      are allowed
+
+PREDEFINED INTERFACES
+Consumer - returns void accept()
+Function - returns a value apply()
+
+Use these methods to refer to other methods that share the
+same method signature / return structure, 
+eg.  BiConsumer is a void method takes 2 arguments
+
+---------------------------------------------
+STRING TYPE UTILITIES
+
+- Spilititerator to iterate through a string list
+    eg names.spliterator().forEachRemaining(
+                          t -> System.out.print(t + " "));
+    --> forEachRemaining( takes a consumer expression
+
+- add String elements to a StringJoiner, good for
+  making a string line with csv, and prefix + suffix
+  eg {value1},{value2},{value3} etc
+
+- other option is to use Collectors.joining()
+
+---------------------------------------------
+JAVA 8 DATES - BENEFITS
+
+- improved Zone handling
+- consistency with numbers, eg January = 1
+- operations on dates, eg plus(), no need for joda time
+
+---------------------------------------------
+MAKE CLASS IMMUTABLE
+
+- make class final
+- ivs ideally final too...
+- no settings
+- return clones of any immutable objects
+- override clone()
+
+---------------------------------------------
+
+
+
