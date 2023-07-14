@@ -8,22 +8,21 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class BasicJava8Application {
 
-	public BasicJava8Application() {
-		init();
+	public BasicJava8Application(Java8misc java8misc) {
+
+		// running the Java8misc constructor and its content
+
+		initOther();
 	}
-	private void init() {
-		new Java8misc();
-
-
+	private void initOther() {
 		// largely a different, poorer version of Java8misc() - but worth sifting through
-		// TODO worth consolitating into a single access point: Java8misc(), and removing duplicated structures
+		// TODO worth consolitating into 'Java8misc', and removing duplicated structures
 		new FunctionalInstructor();
 
 		// contains some more optional examples
-		// TODO worth consolitating into a single access point: Java8misc(), and removing duplicated structures
+		// TODO worth consolitating into 'Java8misc', and removing duplicated structures
 		new Qis();
 	}
-
 
 	public static void main(String[] args) {
 		SpringApplication.run(BasicJava8Application.class, args);
